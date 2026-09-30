@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Student Management System</h1>
+
+    <a href="add.html">Add Student</a>
+
+    <br><br>
+
+    <table border="1">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="studentTable">
+        </tbody>
+
+    </table>
+
+    <script>
+
+        fetch("/students")
+            .then(response => response.json())
+            .then(students => {
+
+                const table = document.getElementById("studentTable");
+
+                students.forEach(student => {
+
+                    table.innerHTML += `
+                        <tr>
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.email}</td>
+                            <td>${student.course}</td>
+
+                            <td>
+                                <a href="edit.html?id=${student.id}">
+                                    Edit
+                                </a>
+
+                                <a href="/students/delete/${student.id}">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+
+                });
+
+            })
+            .catch(error => {
+                console.log("Error:", error);
+            });
+
+    </script>
+
+</body>
+</html>
